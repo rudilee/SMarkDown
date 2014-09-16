@@ -20,6 +20,11 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
+    void createViewer(QString filename);
+
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent *event);
 };
 
 #endif // MAINWINDOW_H

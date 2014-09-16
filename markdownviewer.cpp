@@ -2,7 +2,6 @@
 
 #include <QFile>
 #include <QRegExp>
-#include <QDebug>
 
 MarkdownViewer::MarkdownViewer(QWidget *parent, QString filename) :
     QTextEdit(parent),
@@ -43,8 +42,6 @@ QString MarkdownViewer::parseMarkdown(QByteArray line)
             table("^.+\\|.+"),
             blockquote("^\\>\\s(.+)$");
 
-    qDebug() << "Raw:" << line;
-
     if (pre.indexIn(line) > -1) {
         if (!isPreBlock) {
             isPreBlock = true;
@@ -52,8 +49,6 @@ QString MarkdownViewer::parseMarkdown(QByteArray line)
         }
 
         parsedHtml += QString(line).toHtmlEscaped();
-
-        qDebug() << "Parsed:" << parsedHtml;
 
         return parsedHtml;
     } else if (isPreBlock) {
@@ -70,8 +65,6 @@ QString MarkdownViewer::parseMarkdown(QByteArray line)
         }
 
         parsedHtml += QString("<li>%1</li>").arg(list.cap(2));
-
-        qDebug() << "Parsed:" << parsedHtml;
 
         return parsedHtml;
     } else if (isListGroup) {
@@ -90,8 +83,6 @@ QString MarkdownViewer::parseMarkdown(QByteArray line)
 
         parsedHtml += QString("<tr><%2>%1</%2></tr>").arg(formated.split('|').join(QString("</%1><%1>").arg(entity)), entity);
 
-        qDebug() << "Parsed:" << parsedHtml;
-
         return parsedHtml;
     } else if (isTable) {
         isTable = false;
@@ -109,8 +100,6 @@ QString MarkdownViewer::parseMarkdown(QByteArray line)
     } else {
         parsedHtml += line.trimmed();
     }
-
-    qDebug() << "Parsed:" << parsedHtml;
 
     return parsedHtml;
 }
