@@ -95,6 +95,8 @@ QString MarkdownViewer::parseMarkdown(QByteArray line)
         parsedHtml += QString("<h%1>%2</h%1>").arg(QString::number(level), header.cap(2).trimmed());
     } else if (blockquote.indexIn(formated) > -1) {
         parsedHtml += QString("<blockquote>%1</blockquote>").arg(blockquote.cap(1));
+    } else if (line.startsWith('=')) {
+        parsedHtml += "<hr>";
     } else if (!line.startsWith('<')) {
         parsedHtml += QString("<p>%1</p>").arg(QString(formated.trimmed()));
     } else {
